@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from .layers import *
+from layers import *
 
 
 class FCDenseNet(nn.Module):
@@ -93,6 +93,7 @@ class FCDenseNet(nn.Module):
             out = self.denseBlocksUp[i](out)
 
         out = self.finalConv(out)
+        #print(out.size(),"out")
         out = self.softmax(out)
         return out
 
