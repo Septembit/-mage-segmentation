@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 import tiramisu
-import numpy as np
 import utils
 import argparse
 import dataloader
@@ -27,7 +26,8 @@ def main():
     trainData = torch.utils.data.DataLoader(dataFeeder,batch_size=args.batchsize, shuffle=True, num_workers=1, pin_memory=True)
 
     optimizer = torch.optim.Adam(fcd.parameters(), lr=args.lr, betas=(0.9,0.99))
-    criterion = nn.NLLLoss().to(device)
+    weight = torch.FloatTensor([1,0.9560,0.5202])
+    criterion = nn.NLLLoss(weight=weight).to(device)
 
     for epoch in range(args.epoch):
         since = time.time()
@@ -44,7 +44,7 @@ def main():
 
 
             #output=output.view(args.batchsize,3, -1)
-           #print(output.size())
+            #print(output.size())
             #train_label=train_label.view(args.batchsize, 3, -1)
 
             loss = criterion(output,train_label)

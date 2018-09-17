@@ -1,4 +1,3 @@
-from PIL import Image
 
 import dataloader
 
@@ -12,11 +11,11 @@ c0 = 0
 for i,data in enumerate(trainData):
     for tar in data[1]:
         tar=tar.numpy()
-        if tar.any() == 2 :
+        if (tar == 2).any() :
             c2 +=1
-        elif tar.any() == 1:
-            c1 +=1
-        elif tar.any() == 0:
+        if (tar == 1).any():
+            c1 += 1
+        if (tar == 0).any():
             c0 += 1
 
 
