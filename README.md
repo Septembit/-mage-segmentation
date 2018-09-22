@@ -4,7 +4,7 @@ This code is implemented based on  https://arxiv.org/pdf/1611.09326.pdf and used
 
 
 
-## Useage
+## Usage
 
     python train.py -b -lr
 
