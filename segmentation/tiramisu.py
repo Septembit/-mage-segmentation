@@ -1,7 +1,7 @@
 
 
 from layers import *
-
+#torch.cuda.set_device(0)
 
 class FCDenseNet(nn.Module):
     def __init__(self, in_channels=3, down_blocks=(5,5,5,5,5),

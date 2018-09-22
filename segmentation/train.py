@@ -18,8 +18,9 @@ def main():
 
     #build networks
     fcd = tiramisu.FCDenseNet67(3)
-    fcd.apply(utils.weights_init)
-    fcd= nn.DataParallel(fcd).to(device)
+    #fcd.apply(utils.weights_init)
+    fcd.load_state_dict(torch.load("~/Downloads/pycharm/weights/weights-99-0.104-0.047.pth"))
+    fcd = nn.DataParallel(fcd).to(device)
     #load traindata
 
     dataFeeder = dataloader.dataTrainloader()

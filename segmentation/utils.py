@@ -11,7 +11,7 @@ from torch.autograd import Variable
 
 
 RESULTS_PATH = 'results/'
-WEIGHTS_PATH = 'weights/'
+WEIGHTS_PATH = 'weights/2nd/'
 
 
 def save_weights(model, epoch, loss, err):
@@ -73,20 +73,24 @@ def train(model, trn_loader, optimizer, criterion, epoch):
     trn_error /= len(trn_loader)
     return trn_loss, trn_error
 
-def test(model, test_loader, criterion, epoch=1):
+def test(model, test_loader):
+    torch.cuda.set_device(0)
     model.eval()
-    test_loss = 0
-    test_error = 0
-    for data, target in test_loader:
-        data = Variable(data.cuda(), volatile=True)
-        target = Variable(target.cuda())
+    model=model.cuda()
+    dataFile = "/home/yachao-li/Downloads/pycharm/lists/100k/drivable/test_images.txt"
+    f = open(dataFile, "r")
+    data1 = f.readlines()
+
+    for i,data in enumerate(test_loader):
+
+        data = Variable(data, volatile=False).cuda()
+        data =data.cuda()
         output = model(data)
-        test_loss += criterion(output, target).data[0]
-        pred = get_predictions(output)
-        test_error += error(pred, target.data.cpu())
-    test_loss /= len(test_loader)
-    test_error /= len(test_loader)
-    return test_loss, test_error
+
+        print(i)
+        torch.save(output, "/home/yachao-li/Downloads/results/" + data1[i][17:-5] + "_drivable_id.png")
+
+    f.close()
 
 def adjust_learning_rate(lr, decay, optimizer, cur_epoch, n_epochs):
     """Sets the learning rate to the initially
